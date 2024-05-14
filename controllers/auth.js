@@ -97,3 +97,22 @@ exports.login = async (req, res) => {
         });
     }
 };
+
+exports.getUserProfile = async (req, res) => {
+    try {
+      // Get the user ID from the authenticated user object
+      const userId = req.user._id;
+  
+      // Find the user by ID and select only the name and email fields
+      const user = await User.findById(userId, 'name email');
+  
+      if (!user) {
+        return res.status(404).json({ success: false, message: 'User not found' });
+      }
+  
+      res.status(200).json({ success: true, user });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ success: false, message: 'Server error' });
+    }
+  };

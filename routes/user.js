@@ -1,19 +1,13 @@
 const express = require('express');
 const router = express.Router();
-
-// Handlers from controllers
 const { login, signup } = require('../controllers/auth');
-// const { auth } = require('../middlewares/authMiddle');
+const { auth } = require('../middlewares/authMiddle');
+const { getUserProfile } = require('../controllers/userController'); // Import the getUserProfile controller function
 
 router.post('/login', login);
 router.post('/signup', signup);
 
-// Testing protected route
-// router.get('/test', auth, (req, res) => {
-//     res.json({
-//         success: true,
-//         message: 'You are a valid tester 👨‍💻',
-//     });
-// });
+// Add the new route for fetching user profile
+router.get('/profile', auth, getUserProfile); // Use the auth middleware to protect this route
 
 module.exports = router;
